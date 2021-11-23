@@ -1,5 +1,5 @@
 # How to use?
-run double click activation.exe and press number 1 or number 2 it's up to you
+run with Run as administrator and press number 1 or number 2 it's up to you
 
 
 
