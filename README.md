@@ -1,4 +1,4 @@
-### How to use?
+# How to use?
 run double click activation.exe and press number 1 or number 2 it's up to you
 
 
@@ -12,5 +12,5 @@ run double click activation.exe and press number 1 or number 2 it's up to you
 
 
 
-# Internet-Download-Manager-Crack
+### Internet-Download-Manager-Crack
 Bypass Internet Download Manager
