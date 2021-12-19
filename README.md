@@ -1,6 +1,8 @@
 # How to use?
 run with Run as administrator and press number 1 or number 2 it's up to you
 
+Use IDM forever without cracking. If you can, [buy a license](https://secure.internetdownloadmanager.com/buy_idm.html) to support the developer
+
 
 
 ### Donate
