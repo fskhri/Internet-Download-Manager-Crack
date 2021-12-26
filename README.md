@@ -1,5 +1,3 @@
-# MAINTANCE
-
 # How to use?
 Run with Run as administrator and press number 1 or number 2 it's up to you
 
