@@ -8,7 +8,7 @@ Use IDM forever without cracking. If you can, [buy a license](https://secure.int
 
 You can edit KeyReg In here: Computer\HKEY_CURRENT_USER\Software\DownloadManager
 
-
+https://cdn.discordapp.com/attachments/804929494292496417/925551884389982309/unknown.png
 
 ### Donate
 * <a href="https://trakteer.id/fakhrijuanda12" target="_blank"><img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-red-1.png" height="40" style="border:0px;height:40px;" alt="Trakteer Saya"></a>
