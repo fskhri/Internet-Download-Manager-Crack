@@ -181,7 +181,7 @@ if defined activate goto _activate
 :MainMenu
 
 cls
-title  IDM Activation v0.5 - Achan
+title  IDM Activation v1.5 - Achan
 mode 90, 30
 
 :: Check firewall status
@@ -210,7 +210,7 @@ set _col=%_Yellow%
 )
 
 echo:
-echo:         Create By Achan For You
+echo:         Create By Achan A.K.A Fakhri For You
 echo: 
 echo:         Discord: Achan#6390
 echo:         Github: https://github.com/fskhrijuanda
@@ -422,9 +422,9 @@ echo:
 If not defined name set name=Tonec FZE
 
 set "reg=HKCU\SOFTWARE\DownloadManager /v FName /t REG_SZ /d "Achan"" & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v LName /t REG_SZ /d """ & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v Email /t REG_SZ /d "Fakhri@Achan.com"" & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v Serial /t REG_SZ /d "FOX6H-3KWH4-7TSIN-Q4US7"" & call :_rcont
+set "reg=HKCU\SOFTWARE\DownloadManager /v LName /t REG_SZ /d "fskhri"" & call :_rcont
+set "reg=HKCU\SOFTWARE\DownloadManager /v Email /t REG_SZ /d "info@tonec.com"" & call :_rcont
+set "reg=HKCU\SOFTWARE\DownloadManager /v Serial /t REG_SZ /d "AT4RE-M2000-XXXXX-XXXXX"" & call :_rcont
 
 echo:
 echo Triggering a few downloads to create certain registry keys, please wait...
