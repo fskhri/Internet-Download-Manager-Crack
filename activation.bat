@@ -2,10 +2,29 @@
 @echo off
 
 :: Add custom name in IDM license info, prefer to write it in English and/or numeric in below line after = sign,
-set name=
+set name=Achan
 
+:: Tambahan parameter untuk bypass server check
+set bypass_server=1
+set offline_mode=1
+set force_activation=1
 
+:: Serial Number yang valid untuk versi 6.42
+set "serial_key=QVZW3-ALT4X-4DNKM-SPYW4"
 
+:: Tambahan Registry Paths
+set "CLSID_PATH=HKCU\Software\Classes\CLSID"
+set "WOW64_PATH=HKCU\Software\Classes\Wow6432Node\CLSID"
+set "IDM_REG=HKCU\Software\DownloadManager"
+set "IDM_REGW6432=HKLM\SOFTWARE\WOW6432Node\Internet Download Manager"
+
+:: Tambahan CLSID Keys untuk versi 6.42
+set "CLSID1={7B8E9164-324D-4A2E-A46D-0165FB2000EC}"
+set "CLSID2={6DDF00DB-1234-46EC-8356-27E7B2051192}"
+set "CLSID3={D5B91409-A8CA-4973-9A0B-59F713D25671}"
+set "CLSID4={5ED60779-4DE2-4E07-B862-974CA4FF2E9C}"
+set "CLSID5={07999AC3-058B-40BF-984F-69EB1E554CA7}"
+set "CLSID6={E6871B76-C3C8-44DD-B947-ABFFE144860D}"
 
 ::============================================================================================
 :    Credits: Achan
@@ -212,7 +231,7 @@ set _col=%_Yellow%
 echo:
 echo:         Create By Achan A.K.A Fakhri For You
 echo: 
-echo:         Discord: Achan#6390
+echo:         Discord: Fakhriiii#6390
 echo:         Github: https://github.com/fskhrijuanda
 echo:  
 echo:
@@ -416,15 +435,64 @@ exit /b
 :register_IDM
 
 echo:
-echo Applying registration details...
+echo Menerapkan detail registrasi...
 echo:
 
 If not defined name set name=Tonec FZE
 
-set "reg=HKCU\SOFTWARE\DownloadManager /v FName /t REG_SZ /d "Achan"" & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v LName /t REG_SZ /d "fskhri"" & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v Email /t REG_SZ /d "info@tonec.com"" & call :_rcont
-set "reg=HKCU\SOFTWARE\DownloadManager /v Serial /t REG_SZ /d "AT4RE-M2000-XXXXX-XXXXX"" & call :_rcont
+:: Reset IDM First
+taskkill /f /im idman.exe 2>nul
+reg delete "HKCU\Software\DownloadManager" /f 2>nul
+reg delete "HKCU\Software\Classes\CLSID\%CLSID1%" /f 2>nul
+reg delete "HKCU\Software\Classes\CLSID\%CLSID2%" /f 2>nul
+reg delete "HKCU\Software\Classes\Wow6432Node\CLSID\%CLSID1%" /f 2>nul
+reg delete "HKCU\Software\Classes\Wow6432Node\CLSID\%CLSID2%" /f 2>nul
+
+:: Basic Registration dengan format baru untuk v6.42
+set "reg=%IDM_REG% /v FName /t REG_SZ /d "%name%"" & call :_rcont
+set "reg=%IDM_REG% /v LName /t REG_SZ /d "Registered"" & call :_rcont
+set "reg=%IDM_REG% /v Email /t REG_SZ /d "info@tonec.com"" & call :_rcont
+set "reg=%IDM_REG% /v Serial /t REG_SZ /d "%serial_key%"" & call :_rcont
+
+:: Version Specific Keys untuk v6.42
+set "reg=%IDM_REG% /v AppVersion /t REG_SZ /d "6.42"" & call :_rcont
+set "reg=%IDM_REG% /v idmvers /t REG_SZ /d "6.42.2"" & call :_rcont
+set "reg=%IDM_REG% /v InstallVersion /t REG_SZ /d "6.42.2"" & call :_rcont
+
+:: CLSID Registration dengan LocalServer32 dan InProcServer32
+for %%C in (%CLSID1% %CLSID2% %CLSID3% %CLSID4% %CLSID5% %CLSID6%) do (
+    set "reg=%CLSID_PATH%\%%C /ve /t REG_SZ /d "IDM Class"" & call :_rcont
+    set "reg=%CLSID_PATH%\%%C\LocalServer32 /ve /t REG_SZ /d "%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe"" & call :_rcont
+    set "reg=%CLSID_PATH%\%%C\InProcServer32 /ve /t REG_SZ /d "%ProgramFiles(x86)%\Internet Download Manager\IDMShellExt64.dll"" & call :_rcont
+    set "reg=%WOW64_PATH%\%%C /ve /t REG_SZ /d "IDM Class"" & call :_rcont
+    set "reg=%WOW64_PATH%\%%C\LocalServer32 /ve /t REG_SZ /d "%ProgramFiles(x86)%\Internet Download Manager\IDMan.exe"" & call :_rcont
+    set "reg=%WOW64_PATH%\%%C\InProcServer32 /ve /t REG_SZ /d "%ProgramFiles(x86)%\Internet Download Manager\IDMShellExt64.dll"" & call :_rcont
+)
+
+:: Security Keys dengan nilai yang diperbarui untuk v6.42
+set "reg=%IDM_REG% /v MData /t REG_BINARY /d "00"" & call :_rcont
+set "reg=%IDM_REG% /v LstCheck /t REG_BINARY /d "00"" & call :_rcont
+set "reg=%IDM_REG% /v CheckUpdtVM /t REG_DWORD /d "0"" & call :_rcont
+set "reg=%IDM_REG% /v scansk /t REG_DWORD /d "0"" & call :_rcont
+set "reg=%IDM_REG% /v tvfrdt /t REG_DWORD /d "4294967295"" & call :_rcont
+set "reg=%IDM_REG% /v radxcnt /t REG_DWORD /d "4294967295"" & call :_rcont
+
+:: Activation Status dengan nilai yang diperbarui
+set "reg=%IDM_REG% /v ForcedActivation /t REG_DWORD /d "1"" & call :_rcont
+set "reg=%IDM_REG% /v ActivationStatus /t REG_DWORD /d "1"" & call :_rcont
+set "reg=%IDM_REG% /v TrialStatus /t REG_DWORD /d "0"" & call :_rcont
+set "reg=%IDM_REG% /v IsRegistered /t REG_DWORD /d "1"" & call :_rcont
+
+:: Registry Lock dengan permission yang diperbarui
+set "reg=%IDM_REG% /v SettingsDir /t REG_SZ /d "%APPDATA%\IDM"" & call :_rcont
+set "reg=%IDM_REG% /v LockSettingsDir /t REG_DWORD /d "1"" & call :_rcont
+set "reg=%IDM_REG% /v RegisteredTo /t REG_SZ /d "%name%"" & call :_rcont
+
+:: Disable Updates dan Online Check
+set "reg=%IDM_REG% /v UpdateCheckTime /t REG_DWORD /d "4294967295"" & call :_rcont
+set "reg=%IDM_REG% /v UpdateOption /t REG_DWORD /d "0"" & call :_rcont
+set "reg=%IDM_REG% /v OnlineCheck /t REG_DWORD /d "0"" & call :_rcont
+set "reg=%IDM_REG% /v DisableOnlineCheck /t REG_DWORD /d "1"" & call :_rcont
 
 echo:
 echo Triggering a few downloads to create certain registry keys, please wait...
@@ -652,7 +720,7 @@ $u=($A[2],'S-1-5-32-544')[!$A[2]];$o=($A[3],$u)[!$A[3]];$w=$u,$o |% {new-object 
 $rar=new-object Security.AccessControl.RegistryAccessRule( $w[0], ($A[5],'FullControl')[!$A[5]], 1, 0, ($A[4],'Allow')[!$A[4]] )
 $x=$s-eq'none';function Own1($k){$t=$HK.OpenSubKey($k,2,'TakeOwnership');if($t){0,4|%{try{$o=$t.GetAccessControl($_)}catch{$old=0}
 };if($old){$own=1;$w[1]=$o.GetOwner($sps)};$o.SetOwner($w[0]);$t.SetAccessControl($o); $c=$HK.OpenSubKey($k,2,'ChangePermissions')
-$p=$c.GetAccessControl(2);if($y){$p.SetAccessRuleProtection(1,1)};$p.ResetAccessRule($rar);if($x){$p.RemoveAccessRuleAll($rar)}
+$p=$c.GetAccessControl(2);if($y){$p.SetRuleProtection(1,1)};$p.ResetAccessRule($rar);if($x){$p.RemoveAccessRuleAll($rar)}
 $c.SetAccessControl($p);if($own){$o.SetOwner($w[1]);$t.SetAccessControl($o)};if($s){$subkeys=$HK.OpenSubKey($k).GetSubKeyNames()
 foreach($n in $subkeys){Own1 "$k\$n"}}}};Own1 $rk[1];if($env:VO){get-acl Registry::$path|fl} #:Own1: lean & mean snippet by AveYo
 
